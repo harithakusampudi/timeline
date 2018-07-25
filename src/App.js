@@ -3,7 +3,47 @@ import Timeline from 'react-visjs-timeline'
 import moment from 'moment'
 import './App.css'
 import data from './data'
+import items from './items'
 import ThermalMap from './thermalMap'
+
+const groups=[{
+  content: "bollard 1",
+  id: 1
+},
+{
+  content: "bollard 2",
+  id: 2
+},
+{
+  content: "bollard 3",
+  id: 3
+},
+{
+  content: "bollard 4",
+  id: 4
+},
+{
+  content: "bollard 5",
+  id: 5
+},
+ {
+  id: 10,
+  nestedGroups: [1,2],
+  content: "Berth 1",
+  showNested:true
+},{
+  id: 11,
+  nestedGroups: [3],
+  content: "Berth 2",
+  showNested:true
+},
+{
+  id: 12,
+  nestedGroups: [4,5],
+  content: "Berth 3",
+  showNested:true
+}]
+
 
 class App extends Component {
   constructor (props) {
@@ -13,34 +53,8 @@ class App extends Component {
       selectedTruck: 'none',
       show:true,
       groupsExample : {
-        groups: [{
-          content: "bollard 1",
-          id: 1
-        },
-        {
-          content: "bollard 2",
-          id: 2
-        },
-        {
-          content: "bollard 3",
-          id: 3
-        },
-         {
-          id: 10,
-          nestedGroups: [1,2],
-          content: "Berth 1",
-          showNested:true
-        },{
-          id: 11,
-          nestedGroups: [3],
-          content: "Berth 2",
-          showNested:true
-        }],
-        items: [{  id: 'A', content: 'Group A', start: '2014-01-16', end: '2014-01-22', type: 'range', group: 11},
-        {id: 'B', content: 'Group B', start: '2014-01-23', end: '2014-01-26', type: 'range',group:10},
-        {id: 'C', content: 'order 1', start: '2014-01-23', end: '2014-01-26', type: 'box',group:10,subgroup:2},
-        {id: 'D', content: 'order 2', start: '2014-01-23', end: '2014-01-26', type: 'box',group:11,subgroup:3},
-        {id: 'E', content: 'order 3', start: '2014-01-23', end: '2014-01-26', type: 'box',group:10,subgroup:1}],
+        groups: groups,
+        items: items,
         options: {
           groupOrder: 'content' // groupOrder can be a property name or a sorting function,
         }
