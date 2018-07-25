@@ -99,7 +99,7 @@ class App extends Component {
     }
     return (
       <div className='App'>
-        <p>Crane 1</p>
+        <p>Berth   1</p>
         <Timeline
           {...groupsExample}
           options={options}
