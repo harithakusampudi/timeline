@@ -5,6 +5,7 @@ import './App.css'
 import data from './data'
 import items from './items'
 import ThermalMap from './thermalMap'
+import _ from 'lodash'
 
 const groups=[{
   content: "bollard 1",
@@ -89,7 +90,7 @@ class App extends Component {
     }
     return (
       <div className='App'>
-        <p>Vessel 1</p>
+        <p>Timeline</p>
         <button onClick={this.handleToggle.bind(this)} style={{display:'flex',float:'left'}}>{this.state.show?'-':'+'}</button>
         <Timeline
           {...this.state.groupsExample}
@@ -105,13 +106,11 @@ class App extends Component {
   onMove (props) {
     console.log('ghjfjdkghfdgk', props)
   }
+
   handleToggle(){
-    console.log("show",this.state.show );
     this.setState({show:!this.state.show})
     this.state.groupsExample.groups.find((group)=>{
-      if(group.id>=10)
-      console.log("group.showNested",group.showNested);
-      if(this.state.show)
+      if(group.id>=10 &&this.state.show)
        group.showNested=false
        else
        group.showNested=true
@@ -119,15 +118,38 @@ class App extends Component {
   }
 
   clickHandler (props) {
-    const { group } = props
-    var no = group + 1
-    const groups =this.state.groupsExample.groups
-    var index = groups.map(function(e) { return e.id; }).indexOf(props.group);
-      var show=groups[index].showNested
-      groups[index].showNested=!show
-      this.setState({groups})
-      if (this.state.selectedTruck !== 'Truck' + no) { this.setState({selectedTruck: 'Truck' + no}) }
+    const { group,what } = props
+    const { items } =this.state.groupsExample
+    var propsTime=moment(props.time).format('l') // format time 
+    
+    items.map((item)=>{
+      if(item.type&&item.type===what&&item.group===group){
+        var startTime=moment(item.start).format('l')
+        var endTime=moment(item.end).format('l')
+        var rangeCheck=''
+        rangeCheck=this.selectedDateRangeCheck(startTime,endTime,propsTime)
+        if(rangeCheck){
+          var vesselNo=item.title
+          if (this.state.selectedTruck !== 'Vessel' + vesselNo) {
+            this.setState({selectedTruck: 'Vessel' + vesselNo}) 
+          }
+        }
+      }
+    })
+  }
+
+  selectedDateRangeCheck(startDate,endDate,date){
+    date = new Date(date)
+      var d1   = date.getTime()
+      var d2   = new Date(startDate).getTime()
+      var d3   = new Date(endDate).getTime()
+
+   if (d1 >= d2 && d1 <= d3) {
+    console.log("check",d2,d3,d1);
+       return true;
+    }else
+    console.log("checkfalse",d2,d3,d1);
+ return false;
   }
 }
-
 export default App  
